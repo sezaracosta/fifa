@@ -5,12 +5,19 @@ import pandas as pd
 from datetime import datetime
 
 if "data" not in st.session_state:
+    #lendo o arquivo csv - primeira coluna do csv será usada  como índece
     df_data = pd.read_csv("datasets/CLEAN_FIFA23_official_data.csv", index_col=0)
-    df_data = df_data[df_data["Contract Valid Until"] >= datetime.today().year]
-    df_data = df_data[df_data["Value(£)"] > 0]
-    df_data = df_data.sort_values(by="Overall", ascending=False)
-    st.session_state["data"] = df_data
 
+   #filtra os dados da coluna "Contract Valid Unitil" para que apresenta apenas as tem que um valor igual ou maior do que o ano atual
+    df_data = df_data[df_data["Contract Valid Until"] >= datetime.today().year]
+  
+   # para apresentar apenas os valores maiores que zero referente a essa coluna
+    df_data = df_data[df_data["Value(£)"] > 0]
+
+    #ordenando os dados pela conula "Overall", ordenando por ordem cresente
+    df_data = df_data.sort_values(by="Overall", ascending=False)
+    
+    st.session_state["data"] = df_data
 
 
 st.markdown("# FIFA23 OFFICIAL DATASET")
